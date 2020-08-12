@@ -181,6 +181,27 @@ function drawMetaData(ctx, opts = {}) {
   ctx.stroke();
 }
 
+function convertGitlabToGithubJSON(gitlab_json) {
+  // TODO: convert gitlab pattern of JSON (example: https://gitlab.com/users/jeremy/calendar.json)
+  // to a github pattern (example: )
+}
+
+function mergejSONContributions(github_json, gitlab_json) {
+  // TODO: merge RGB colors from the two different types.
+  // gitlab:
+  //   +30 -> rgb(37, 78, 119)
+  //   20-29 -> rgb(82, 123, 160)
+  //   10-19 -> rgb(127, 168, 201)
+  //   1-9 -> rgb(172, 213, 242)
+  //   0 -> rgb(237, 237, 237)
+  // github:
+  //   -> 216e39
+  //   -> 30a14e
+  //   -> 40c463
+  //   -> 9be9a8
+  //   -> ebedf0
+}
+
 export function drawContributions(canvas, opts) {
   const { data, username } = opts;
   const height =
@@ -211,4 +232,16 @@ export function drawContributions(canvas, opts) {
       data
     });
   });
+}
+
+export function drawGitlabContribution(canvas, opts) {
+  opts.data = convertGitlabToGithubJSON(opts.data)
+  drawContributions(canvas, opts)
+}
+
+export function drawGitlubContribution(canvas, github_opts, gitlab_opts) {
+  gitlab_opts.data = convertGitlabToGithubJSON(gitlab_opts.data)
+  opts = mergejSONContributions(github_opts, gitlab_opts)
+
+  drawContributions(canvas, opts)
 }
